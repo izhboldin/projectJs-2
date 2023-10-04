@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таск-менеджер</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <header class="header">
+        <h1 class="title text-center">Таск-менеджер</h1>
+    </header>
+    <div class="container">
+        <div class="row gap-2 bg-body-secondary p-2 " id="board">
+            <div class="col bg-body p-0">
+                <div class="board-column-top d-flex align-items-center flex-column">
+                    <h4 class="text-center">План</h4>
+                    <button type="button" class="btn btn-outline-primary w-75" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal" onclick="addIdindex(0)">Добавить задачу</button>
+                </div>
+                <div class="board-column-element-0 board-column-element" data-index="0">
+                    <div class="board-column p-2 border border-primary rounded-1 m-2">
+                        <p>Создать банер для рекламной компании</p>
+                    </div>
+                    <div class="board-column p-2 border border-primary rounded-1 m-2">
+                        <p>Создать банер для рекламной компании</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col bg-body p-0">
+                <div class="board-column-top d-flex align-items-center flex-column">
+                    <h4 class="text-center">К работе</h4>
+                    <button type="button" class="btn btn-outline-primary w-75" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"  onclick="addIdindex(1)">Добавить задачу</button>
+                </div>
+                <div class="board-column-element-1 board-column-element" data-index="1">
+                </div>
+            </div>
+            <div class="col bg-body p-0">
+                <div class="board-column-top d-flex align-items-center flex-column">
+                    <h4 class="text-center">В работе</h4>
+                    <button type="button" class="btn btn-outline-primary w-75" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"  onclick="addIdindex(2)">Добавить задачу</button>
+                </div>
+                <div class="board-column-element-2 board-column-element" data-index="2">
+                    <div class="board-column p-2 border border-primary rounded-1 m-2">
+                        <p>Создать банер для рекламной компании</p>
+                    </div>
+                    <div class="board-column p-2 border border-primary rounded-1 m-2">
+                        <p>Создать банер для рекламной компании</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col bg-body p-0">
+                <div class="board-column-top d-flex align-items-center flex-column">
+                    <h4 class="text-center">Готово</h4>
+                    <button type="button" class="btn btn-outline-secondary w-75" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal"  onclick="addIdindex(3)">Добавить задачу</button>
+                </div>
+                <div class="board-column-element-3 board-column-element" data-index="3">
+                    <div class="board-column p-2 border rounded-1 m-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="readTask()">
+                        <p class="text-decoration-line-through text-secondary">Создать банер для рекламной компании</p>
+                    </div>
+                    <div class="board-column p-2 border rounded-1 m-2">
+                        <p class="text-decoration-line-through text-secondary">Создать банер для рекламной компании</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+ <!-- Модальное окно для создания задач -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Добавление задачи</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="alert alert-danger d-none" id="modal-error" role="alert">
+                    Произошла ошибка! Проверьте введённые данные.
+                  </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="task-text-name" class="col-form-label">Название:</label>
+                            <input type="text" class="form-control" id="task-text-name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="task-text-body" class="col-form-label">Описание задачи:</label>
+                            <textarea class="form-control" id="task-text-body"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Закрыть</button>
+                    <button type="button" class="btn btn-primary" id="send-btn">Отправить сообщение</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <!-- Модальное окно  для чтения описания -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Заголовок модального окна</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+    <script src="js/bootstrap.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/addTask.js"></script>
+</body>
+
+</html>
