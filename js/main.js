@@ -1,5 +1,17 @@
 const truncate = (str, maxlength) => str.length > maxlength ? (str.slice(0, maxlength) + '...') : str;
 
+const selectComplexity = (compl) => {
+    if(compl === 'Eazy') {
+        return `<span class="badge rounded-pill text-bg-success text-dark  me-4">${compl}</span>`
+    }
+    if(compl === 'Medium') {
+        return `<span class="badge rounded-pill text-bg-warning me-2">${compl}</span>`
+    }
+    if(compl === 'Hard') {
+        return `<span class="badge rounded-pill text-bg-danger text-dark  me-4">${compl}</span>`
+    }
+}
+
 const zone1 = document.querySelector('.board-column-element-0');
 const zone2 = document.querySelector('.board-column-element-1');
 const zone3 = document.querySelector('.board-column-element-2');
@@ -15,6 +27,7 @@ function allowDrop(event) {
 }
 
 const setDrag = () => document.querySelectorAll('.board-column').forEach(el => el.ondragstart = drag);
+
 
 zone1.ondrop = drop;
 zone2.ondrop = drop;
