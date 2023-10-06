@@ -54,10 +54,6 @@
         </div>
     </div>
 
-<!--     <span class="badge rounded-pill text-bg-success text-dark">Eazy</span>
-    <span class="badge rounded-pill text-bg-warning">Medium</span>
-    <span class="badge rounded-pill text-bg-danger text-dark">Hard</span> -->
-
     <!-- Модальное окно для создания задач -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -81,6 +77,21 @@
                         <div class="mb-3">
                             <label for="task-text-body" class="col-form-label">Описание задачи:</label>
                             <textarea class="form-control" id="task-text-body"></textarea>
+                        </div>
+                        <div class="mb-3 row justify-content-between">
+                            <div class="col-4">
+                                <label for="task-text-time" class="col-form-label">Количество дней:</label>
+                                <input type="text" class="form-control" id="task-text-time">
+                            </div>
+                            <div class="col-4">
+                                <label for="task-text-complexity" class="col-form-label">Сложность:</label>
+                                <select id="task-text-complexity" class="form-control">
+                                    <option value="" selected>Choose...</option>
+                                    <option value="Eazy">Eazy</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Hard">Hard</option>
+                                </select>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -112,6 +123,15 @@
                         <div class="mb-3">
                             <label for="message-text" class="col-form-label">Описание задачи:</label>
                             <textarea class="form-control" id="task-text-body-edit"></textarea>
+                        </div>
+                        <div class="col-4">
+                            <label for="task-text-complexity-edit" class="col-form-label">Сложность:</label>
+                            <select id="task-text-complexity-edit" class="form-control">
+                                <option value="" selected>Choose...</option>
+                                <option value="Eazy">Eazy</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Hard">Hard</option>
+                            </select>
                         </div>
                     </form>
                 </div>
