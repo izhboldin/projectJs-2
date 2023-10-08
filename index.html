@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Таск-менеджер</title>
     <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -81,7 +80,7 @@
                         <div class="mb-3 row justify-content-between">
                             <div class="col-4">
                                 <label for="task-text-time" class="col-form-label">Количество дней:</label>
-                                <input type="text" class="form-control" id="task-text-time">
+                                <input type="text" class="form-control" id="task-text-time" placeholder="Не больше 90">
                             </div>
                             <div class="col-4">
                                 <label for="task-text-complexity" class="col-form-label">Сложность:</label>
@@ -124,7 +123,7 @@
                             <label for="message-text" class="col-form-label">Описание задачи:</label>
                             <textarea class="form-control" id="task-text-body-edit"></textarea>
                         </div>
-                        <div class="col-4">
+                        <!-- <div class="col-4">
                             <label for="task-text-complexity-edit" class="col-form-label">Сложность:</label>
                             <select id="task-text-complexity-edit" class="form-control">
                                 <option value="" selected>Choose...</option>
@@ -132,6 +131,21 @@
                                 <option value="Medium">Medium</option>
                                 <option value="Hard">Hard</option>
                             </select>
+                        </div> -->
+                        <div class="mb-3 row justify-content-between">
+                            <div class="col-4">
+                                <label for="task-text-time-edit" class="col-form-label">Количество дней:</label>
+                                <input type="text" class="form-control" id="task-text-time-edit">
+                            </div>
+                            <div class="col-4">
+                                <label for="task-text-complexity-edit" class="col-form-label">Сложность:</label>
+                                <select id="task-text-complexity-edit" class="form-control">
+                                    <option value="" selected>Choose...</option>
+                                    <option value="Eazy">Eazy</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="Hard">Hard</option>
+                                </select>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -153,9 +167,10 @@
                     <h5 class="modal-title" id="readModalLabel">Заголовок модального окна</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body modal-body-inside">
                     ...
                 </div>
+                <div class="modal-body modal-info"></div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                 </div>
@@ -165,6 +180,7 @@
 
     <script src="js/bootstrap.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/dragDrop.js"></script>
     <script src="js/addTask.js"></script>
 </body>
 
