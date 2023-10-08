@@ -5,42 +5,7 @@ let tasks = [
     [],
 ];
 
-const get1Data = () => {
-    const time1 = Math.floor(Date.now() / 1000)
-    const time2 = Math.floor((Date.now() + 7 * 24 * 60 * 60 * 1000) / 1000)
-    const date1 = new Date(Math.floor(time1 * 1000));
-    const date2 = new Date(Math.floor(time2 * 1000));
-    console.log(date1);
-    console.log(date2);
-    console.log((time2 - time1) / 60 / 60 / 24);
-}
-
-const getData = (time) => {
-    const hours = Math.ceil((time - Math.floor(Date.now() / 1000)) / 60 / 60);
-    if (hours % 24 == 0) {
-        return `${hours / 24} д.`
-    }
-    else if(hours < 24){
-        return `${hours % 24} ч.`
-    }
-    else {
-        return `${Math.ceil(hours / 24)} д. ${hours % 24} ч.`
-    }
-}
-
-
 getData();
-
-const executeSvg = `<svg class="svg-execute" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M5 13.3636L8.03559 16.3204C8.42388 16.6986 9.04279 16.6986 9.43108 16.3204L19 7" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>`;
-const editSvg = `<svg class="svg-edit" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M15.6287 5.12132L4.31497 16.435M15.6287 5.12132L19.1642 8.65685M15.6287 5.12132L17.0429 3.70711C17.4334 3.31658 18.0666 3.31658 18.4571 3.70711L20.5784 5.82843C20.969 6.21895 20.969 6.85212 20.5784 7.24264L19.1642 8.65685M7.85051 19.9706L4.31497 16.435M7.85051 19.9706L19.1642 8.65685M7.85051 19.9706L3.25431 21.0312L4.31497 16.435" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>`;
-const removeSvg = `<svg class="svg-remove" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M7 17L16.8995 7.10051" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M7 7.00001L16.8995 16.8995" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>`;
 
 const taskTitle = document.getElementById('task-text-name');
 const taskBody = document.getElementById('task-text-body');
@@ -49,13 +14,9 @@ const taskTime = document.getElementById('task-text-time');
 const taskTitleEdit = document.getElementById('task-text-name-edit');
 const taskBodyEdit = document.getElementById('task-text-body-edit');
 const taskComplexityEdit = document.getElementById('task-text-complexity-edit');
+const taskTimeEdit = document.getElementById('task-text-time-edit');
 const creatBtn = document.getElementById('send-btn');
 const board = document.getElementById('board');
-
-board.setAttribute("style", "height:calc(100vh - 56px)")
-const boardColumnTopH = document.querySelector('.board-column-top').offsetHeight;
-console.log(boardColumnTopH);
-document.querySelectorAll('.board-column-element').forEach(el => el.setAttribute("style", `height:calc(100% - ${boardColumnTopH}px )`))
 
 const addIdindex = (index) => {
 
@@ -72,16 +33,12 @@ const addIdindex = (index) => {
         case 3:
             creatBtn.setAttribute('id', 'send-btn-3 send-btn');
             break;
-
     }
 }
 
 creatBtn.addEventListener('click', event => {
     event.preventDefault();
-    console.log(isNaN(taskTime.value.trim()))
-    console.log(!Number.isInteger(+taskTime.value.trim()))
-    console.log(typeof(taskTime.value.trim()))
-    if (taskTitle.value.trim() === '' || taskBody.value.trim() === '' || taskComplexity.value === '' || taskTime.value.trim() === '' || isNaN(taskTime.value.trim()) || !Number.isInteger(+taskTime.value.trim())) {
+    if (taskTitle.value.trim() === '' || taskBody.value.trim() === '' || taskComplexity.value === '' || taskTime.value.trim() === '' || isNaN(taskTime.value.trim()) || !Number.isInteger(+taskTime.value.trim()) || taskTime.value.trim() <= 0 || taskTime.value.trim() > 90) {
         fieldsErrors(taskTitle, taskBody, taskComplexity, taskTime);
         return;
     }
@@ -118,15 +75,17 @@ board.addEventListener('click', event => {
         taskTitleEdit.value = tasks[taskElementsIndex][taskElementIndex].title;
         taskBodyEdit.value = tasks[taskElementsIndex][taskElementIndex].body;
         taskComplexityEdit.value = tasks[taskElementsIndex][taskElementIndex].complexity;
+        // taskTimeEdit.value = tasks[taskElementsIndex][taskElementIndex].time;
         document.getElementById('update-task').addEventListener('click', (event) => {
             event.preventDefault();
-            if (taskTitleEdit.value.trim() === '' || taskBodyEdit.value.trim() === '' || taskComplexityEdit.value === '') {
-                fieldsErrors(taskTitleEdit, taskBodyEdit, taskComplexity, taskTime);
+            if (taskTitleEdit.value.trim() === '' || taskBodyEdit.value.trim() === '' || taskComplexityEdit.value === '' || taskTimeEdit.value.trim() === '' || isNaN(taskTimeEdit.value.trim()) || !Number.isInteger(+taskTimeEdit.value.trim()) || taskTimeEdit.value.trim() <= 0 || taskTimeEdit.value.trim() > 90) {
+                fieldsErrors(taskTitleEdit, taskBodyEdit, taskComplexityEdit, taskTimeEdit);
                 return;
             }
             tasks[taskElementsIndex][taskElementIndex].title = taskTitleEdit.value
             tasks[taskElementsIndex][taskElementIndex].body = taskBodyEdit.value
             tasks[taskElementsIndex][taskElementIndex].complexity = taskComplexityEdit.value
+            tasks[taskElementsIndex][taskElementIndex].time = taskTimeEdit.value
             saveTasks();
             showTask(tasks);
         })
@@ -169,9 +128,9 @@ const showTask = tasks => {
             element.forEach((task, index) => {
                 if (indexGlobal === 3) {
                     out +=
-                        `<div class="board-column p-2 border rounded-1 m-2" data-index="${index}" draggable="true">
+                        `<div class="board-column p-2 border rounded-1 m-2" data-index="${index}" draggable="true" style="cursor: grab;">
                                     <div data-bs-toggle="modal" data-bs-target="#readModal"> 
-                                        <p class="mb-2 text-decoration-line-through text-secondary board-column-text">${truncate(task.title, 32)}</p>
+                                        <p class="mb-2 text-decoration-line-through text-secondary board-column-text">${truncate(task.title, 30)}</p>
                                     </div>
                                     <div class="btn-group board-column-btn" role="group" aria-label="Basic mixed styles example">
                                         <button type="button" class="btn  btn-sm btn-remove" >${removeSvg}</button>
@@ -181,9 +140,9 @@ const showTask = tasks => {
                 }
                 else {
                     out +=
-                        `<div class="board-column p-2 border border-primary rounded-1 m-2" data-index="${index}" draggable="true">
+                        `<div class="board-column p-2 border border-primary rounded-1 m-2" data-index="${index}" draggable="true" style="cursor: grab;">
                                 <div data-bs-toggle="modal" data-bs-target="#readModal"> 
-                                    <p class="mb-2 board-column-text">${truncate(task.title, 32)}</p>
+                                    <p class="mb-2 board-column-text">${truncate(task.title, 30)}</p>
                                 </div>
                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                     <button type="button" class="btn  btn-sm btn-remove" >${removeSvg}</button>
@@ -191,10 +150,11 @@ const showTask = tasks => {
                                     <button type="button" class="btn  btn-sm btn-execute">${executeSvg}</button>
                                 </div>
                                 ${selectComplexity(task.complexity)}
-                                <p class="d-inline">${getData(task.time)}</p>
-                            </div>`
+                                ${getData(task.time)}
+                                </div>`
                 }
             });
+            // <p class="d-inline">${getData(task.time)}</p>
             document.querySelector(`.board-column-element-${indexGlobal}`).innerHTML = out;
             setDrag();
         }
@@ -228,7 +188,7 @@ const fieldsErrors = (title, body, complexity, time) => {
     if (complexity.value.trim() === '') {
         fieldError(complexity);
     }
-    if (time.value.trim() === ''  || isNaN(time.value.trim()) || !Number.isInteger(+time.value.trim())) {
+    if (time.value.trim() === '' || isNaN(time.value.trim()) || !Number.isInteger(+time.value.trim()) || taskTime.value.trim() <= 0 || taskTime.value.trim() > 90) {
         fieldError(time);
     }
 }
@@ -254,6 +214,7 @@ const fieldsComplet = () => {
 
 const readTask = (index1, index2) => {
     document.getElementById('readModal').querySelector('.modal-title').innerHTML = tasks[index1][index2].title;
-    document.getElementById('readModal').querySelector('.modal-body').innerHTML = tasks[index1][index2].body;
+    document.getElementById('readModal').querySelector('.modal-body-inside').innerHTML = `Описание: ${tasks[index1][index2].body}`;
+    document.getElementById('readModal').querySelector('.modal-info').innerHTML = `Времени осталось для выполнения: ${getData(tasks[index1][index2].time)}`;
 }
 
