@@ -1,56 +1,35 @@
-const truncate = (str, maxlength) => str.length > maxlength ? (str.slice(0, maxlength) + '...') : str;
+const executeSvg = `<svg class="svg-execute" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5 13.3636L8.03559 16.3204C8.42388 16.6986 9.04279 16.6986 9.43108 16.3204L19 7" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+const editSvg = `<svg class="svg-edit" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M15.6287 5.12132L4.31497 16.435M15.6287 5.12132L19.1642 8.65685M15.6287 5.12132L17.0429 3.70711C17.4334 3.31658 18.0666 3.31658 18.4571 3.70711L20.5784 5.82843C20.969 6.21895 20.969 6.85212 20.5784 7.24264L19.1642 8.65685M7.85051 19.9706L4.31497 16.435M7.85051 19.9706L19.1642 8.65685M7.85051 19.9706L3.25431 21.0312L4.31497 16.435" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+const removeSvg = `<svg class="svg-remove" width="25px" height="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 17L16.8995 7.10051" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M7 7.00001L16.8995 16.8995" stroke="#000000" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
 
-const selectComplexity = (compl) => {
-    if(compl === 'Eazy') {
-        return `<span class="badge rounded-pill text-bg-success text-dark  me-4">${compl}</span>`
+const getData = (time) => {
+    let el = ``;
+    const hours = Math.ceil((time - Math.floor(Date.now() / 1000)) / 60 / 60);
+    if (hours % 24 == 0) {
+        el = `${hours / 24} д.`
     }
-    if(compl === 'Medium') {
-        return `<span class="badge rounded-pill text-bg-warning me-2">${compl}</span>`
+    else if (hours < 24) {
+        el = `${hours % 24} ч.`
     }
-    if(compl === 'Hard') {
-        return `<span class="badge rounded-pill text-bg-danger text-dark  me-4">${compl}</span>`
+    else {
+        el = `${Math.ceil(hours / 24)} д. ${hours % 24} ч.`
     }
-}
-
-const zone1 = document.querySelector('.board-column-element-0');
-const zone2 = document.querySelector('.board-column-element-1');
-const zone3 = document.querySelector('.board-column-element-2');
-const zone4 = document.querySelector('.board-column-element-3');
-
-zone1.ondragover = allowDrop;
-zone2.ondragover = allowDrop;
-zone3.ondragover = allowDrop;
-zone4.ondragover = allowDrop;
-
-function allowDrop(event) {
-    event.preventDefault();
-}
-
-const setDrag = () => document.querySelectorAll('.board-column').forEach(el => el.ondragstart = drag);
-
-
-zone1.ondrop = drop;
-zone2.ondrop = drop;
-zone3.ondrop = drop;
-zone4.ondrop = drop;
-
-function drag(event) {
-    event.dataTransfer.setData('index', event.target.dataset.index);
-    event.dataTransfer.setData('indexG', event.target.closest('.board-column-element').dataset.index);
-}
-
-function drop(event) {
-    let itemIndex = event.dataTransfer.getData('index');
-    let itemsIndex = event.dataTransfer.getData('IndexG');
-
-    if(itemIndex == '' || itemsIndex == ''){
-        return
+    if (hours <= 0) {
+        return `<p class="d-inline text-danger">${el}</p>`
     }
+    else {
+        return `<p class="d-inline">${el}</p>`
 
-    if (event.target.className.split(' ')[1] === 'board-column-element') {
-        tasks[event.target.dataset.index].push(tasks[itemsIndex][itemIndex]);
-        tasks[itemsIndex].splice(itemIndex, 1);
-        saveTasks();
-        showTask(tasks);
     }
 }
+
+board.setAttribute("style", "height:calc(100vh - 56px)")
+const boardColumnTopH = document.querySelector('.board-column-top').offsetHeight;
+document.querySelectorAll('.board-column-element').forEach(el => el.setAttribute("style", `height:calc(100vh - ${boardColumnTopH + 70}px ); overflow-y: auto;`))
